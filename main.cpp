@@ -6,26 +6,30 @@
 using namespace std;
 
 
-        vector createAlbum(string).
-vector <vector <Pixel> > bmp  createPixelMatrix(vector <string> album)
-        vector <vector <Pixel> > composite createComposition(vector <vector <vector <Pixel> > > photoStructure
+        vector <string> createAlbum();
+        vector <vector <vector <Pixel> > > createPixelMatrix(vector <string>);
+        vector <vector <Pixel> >  createComposition(vector <vector <vector <Pixel> > >);
 
                         int main()
                         {
-
-                        createAlbum();
-
-                        createPixelMatrix();
-
+                        Bitmap image;
+                        vector <string> photoAlbum;
+                        vector <vector <vector <Pixel> > > depthPhoto;
+                        vector <vector <Pixel> > compositeImage;
+                        photoAlbum = createAlbum();
+                        depthPhoto = createPixelMatrix(photoAlbum);
+                        compositeImage = createComposition(depthPhoto);
+                        image.fromPixelMatrix(compositeImage);
+                        image.save("composite-fkjellberg.bmp");
                         return 0;
                         }
 
                         //Asks for user to input file names which they want to make composite image out of and checks that they are valid images
-                        vector album createAlbum(string)
+                        vector <string> createAlbum()
                         {
-                        Bitmap image
+                        Bitmap image;
                         string imageFile;
-                        vector <string> album
+                        vector <string> album;
                         bool validImage;
                         validImage = false;
 
@@ -33,8 +37,8 @@ vector <vector <Pixel> > bmp  createPixelMatrix(vector <string> album)
                         {
                                 cout<<"What file would you like to add?"<<endl;
                                 cin>>imageFile;
-                                do
-                                {
+                               
+                               
                                         //Opens image
                                         image.open(imageFile);
                                         //Verify file is image
@@ -43,83 +47,73 @@ vector <vector <Pixel> > bmp  createPixelMatrix(vector <string> album)
                                         {
                                                 cout<<"File is invalid. Please re-eneter file or enter new file."<<endl;
                                         }
-                                }while(validImage == false);
+                                
                                 if(validImage == true)
                                 {
-                                        album.pushback() = imageFile;
+                                        album.push_back(imageFile);
                                 }
-                        }while(imageFile != "Done" || imageFile != "DONE");
+                        }while(imageFile != "Done" || imageFile != "DONE" || album.size() == 10);
+                        return album;
+                        }
                         //Takes album vecto and converts each filed image inside into a pixel matrix and stores them
-                        vector <vector <vector  <Pixel> > > photoStructure createPixelMatrix(vector <string> album)
+                        vector <vector <vector  <Pixel> > > createPixelMatrix(vector <string> album)
                         {
-                                vector <vector <Pixel> > bmp
-                                        vector <vector <vector <Pixel> > > photoStructure
+                                vector <vector <Pixel> > bmp;
+                                        vector <vector <vector <Pixel> > > photoStructure;
                                         for(int row = 0; row < album.size(); row++)
                                         {
+                                                
                                                 bmp = album[row].toPixelMatrix();
-                                                photoStructure[row] = bmp;
+                                                photoStructure.push_back(bmp);
                                         }
+                        return photoStructure;
                         }
-                        vector <vector <Pixel> > composite createComposition(vector <vector <vector <Pixel> > > photoStructure)
+                        vector <vector <Pixel> > createComposition(vector <vector <vector <Pixel> > > photoStructure)
                         {
-                                vector <vector <Pixel> > composite
-                                        composite[photoStructure.size()]
-                                        int totalRedCol;
-                                int totalBlueCol;
-                                int totalGreenCol;
-                                int totalRedWidth;
-                                int totalBlueWidth;
-                                int totalGreenWidth;
-                                int redColAvg;
-                                int greenColAvg;
-                                int blueColAvg;
-                                int redWidthAvg;
-                                int greenWidthAvg;
-                                int blueWidthAvg;
-                                Pixel comprgb
-                                        for(int row = 0; row < photoStrucure.size(); row++)
+                                vector <vector <Pixel> > composite;
+                                        int depth = photoStructure.size();
+                                        int rows = photoStructure[0].size();
+                                        int cols = photoStructure[0][0].size();
+                                        composite.resize(rows);
+                                        for(int r = 0; r < rows; r++)
                                         {
-                                                for(int col = 0; col < photoStructure[row].size(); col++)
-                                                {
-                                                        {
-                                                                for(int width = 0; width < photoStructure[row][col].size(); width++)
+                                         composite[r].resize(cols);
+                                        }
+                                int totalRedDepth;
+                                int totalBlueDepth;
+                                int totalGreenDepth;
+                                int redDepthAvg;
+                                int greenDepthAvg;
+                                int blueDepthAvg;
+                                Pixel comprgb
+                                        for(int r = 0; r < rows; r++) 
+                                        {
+                                                for(int c = 0; c < cols; c++)
+                                                {  totalRedDepth = 0;
+                                                   totalGreenDepth = 0;
+                                                   totalBlueDepth = 0;
+                                                 
+                                                                for(int d = 0; d < depth; d++)
                                                                 { 
-                                                                        Pixel rgbWidth = photoStrucure[row][col][width];
-                                                                        totalRedWidth = rgbWidth.red + totalRedWidth;
-                                                                        totalGreenWidth = rgbWidth.green + totalGreenWidth;
-                                                                        totalBlueWidth = rgbWidth.blue + totalBlueWidth;
+                                                                        Pixel rgbDpeth = photoStrucure[d][r][c];
+                                                                        totalRedDepth = rgbDepth.red + totalRedDepth;
+                                                                        totalGreenDepth = rgbDepth.green + totalGreenDepth;
+                                                                        totalBlueDepth = rgbDepth.blue + totalBlueDepth;
                                                                 }
-                                                                redWidthAvg = totalRedWidth/photoStructure[row][col].size();
-                                                                greenWidthAvg = totalGreenWidth/photoStructure[row][col].size();
-                                                                blueWidthAvg = totalBlueWidth/photoStructure[row][col].size();
-                                                        }
-                                                        comprgb = composite{row}{col};
-                                                        comprgb.red = redWidthAvg;
-                                                        comprgb.green = greenWidthAvg;
-                                                        comprgb.blue = blueWidthAvg;
-                                                        composite[row][col] = comprgb;
-
+                                                   redDepthAvg = totalRedDepth/depth;
+                                                   greenDepthAvg = totalGreenDepth/depth;
+                                                   blueDepthAvg = totalBlueDepth/depth;
+                                                        
+                                                   comprgb.red = redDepthAvg;
+                                                   comprgb.green = greenDepthAvg;
+                                                   comprgb.blue = blueDepthAvg;
+                                                   composite[r][c] = comprgb;
+                                                 }
+                                                 
 
                                                 }
-                                                Pixel rgbCol = photoStrucure[row][col];
-                                                totalRedCol = rgbCol.red + totalRedCol;
-                                                totalGreenCol = rgbCol.green + totalGreenCol;
-                                                totalBlueCol = rgbCol.blue + totalBlueCol;
-                                                redColAvg = totalRedCol/photoStructure{row}.size();
-                                                greenColAvg = totalGreenCol/photoStructure
-                                        }
-                                        }
-                        }
-                        for(int row = 0; row < 
 
 
-
-
-
-
-
-
-
-                                        return 0;
+                                        return composite;
                                         }
 
