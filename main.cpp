@@ -35,7 +35,7 @@ using namespace std;
 
                         do
                         {
-                                cout<<"What file would you like to add?"<<endl;
+                                cout<<"Add file."<<endl;
                                 cin>>imageFile;
                                
                                
@@ -58,12 +58,13 @@ using namespace std;
                         //Takes album vecto and converts each filed image inside into a pixel matrix and stores them
                         vector <vector <vector  <Pixel> > > createPixelMatrix(vector <string> album)
                         {
-                                vector <vector <Pixel> > bmp;
                                         vector <vector <vector <Pixel> > > photoStructure;
                                         for(int row = 0; row < album.size(); row++)
                                         {
-                                                
-                                                bmp = album[row].toPixelMatrix();
+                                                Bitmap image;
+                                                vector <vector <Pixel> > bmp;
+                                                image.open(album[row]);
+                                                bmp = image.toPixelMatrix();
                                                 photoStructure.push_back(bmp);
                                         }
                         return photoStructure;
@@ -85,7 +86,7 @@ using namespace std;
                                 int redDepthAvg;
                                 int greenDepthAvg;
                                 int blueDepthAvg;
-                                Pixel comprgb
+                                Pixel comprgb;
                                         for(int r = 0; r < rows; r++) 
                                         {
                                                 for(int c = 0; c < cols; c++)
@@ -95,7 +96,7 @@ using namespace std;
                                                  
                                                                 for(int d = 0; d < depth; d++)
                                                                 { 
-                                                                        Pixel rgbDpeth = photoStrucure[d][r][c];
+                                                                        Pixel rgbDepth = photoStructure[d][r][c];
                                                                         totalRedDepth = rgbDepth.red + totalRedDepth;
                                                                         totalGreenDepth = rgbDepth.green + totalGreenDepth;
                                                                         totalBlueDepth = rgbDepth.blue + totalBlueDepth;
